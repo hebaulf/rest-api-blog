@@ -60,7 +60,7 @@ const Register = () => {
             <button className="register__login-btn">
                 <Link to="/login">Login</Link> 
             </button>
-            {error && <span className="err-msg">Something went wrong!</span>}
+            {error && <span className="msg__error">Something went wrong!</span>}
         </StyledRegister>
     )
 }

@@ -20,7 +20,6 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        background: #fff;
         color: #37392E;
         font-family: Helvetica, sans-serif;
         font-size: 1.6rem;
@@ -33,6 +32,20 @@ const GlobalStyles = createGlobalStyle`
         &:hover {
             color: #28AFB0;
         }
+    }
+
+    .msg__error,
+    .msg__success {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .msg__error {
+        color: red;
+    }
+
+    .msg__success {
+        color: green;
     }
 `
 

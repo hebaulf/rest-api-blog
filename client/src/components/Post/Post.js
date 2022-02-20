@@ -2,14 +2,12 @@ import { Link } from "react-router-dom";
 import { StyledPost } from './styles';
 
 const Post = ({ post }) => {
+  const publicFolder = 'http://localhost:5002/images/';
+
   return (
     <StyledPost className="post">
       {post.photo && (
-        <img
-          className="post__img"
-          src={post.photo}
-          alt=""
-        />
+        <img className="post__img" src={publicFolder + post.photo} alt={post.title} />
       )}
       <div className="post__info">
         <div className="post__cats">

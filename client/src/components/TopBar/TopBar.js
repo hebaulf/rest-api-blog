@@ -2,9 +2,16 @@ import { Link } from "react-router-dom";
 import { StyledTopbar, StyledUserImage } from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { useContext } from "react";
+import { Context } from "../../context/Context";
 
 const TopBar = () => {
-  const user = false;
+  const { user, dispatch } = useContext(Context);
+  const publicFolder = "http://localhost:5002/images/";
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+  }
 
   return (
     <StyledTopbar className="top">
@@ -20,14 +27,18 @@ const TopBar = () => {
           <li className="top__list__item"><Link to="/">About</Link></li>
           <li className="top__list__item"><Link to="/">Contact</Link></li>
           <li className="top__list__item"><Link to="/write">Write</Link></li>
-          { user && <li className="top__list__item">Logout</li> }
+          { user && <li className="top__list__item" onClick={handleLogout}>Logout</li> }
         </ul>
       </div>
 
       <div className="top__right">
         {user ? (
-          <Link className="link" to="/settings">
-            <StyledUserImage className="top__user-img" src="https://images.unsplash.com/photo-1614880353165-e56fac2ea9a8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80" alt="profile" />
+          <Link to="/settings">
+            <StyledUserImage 
+              className="top__user-img" 
+              src={publicFolder + user.profilePic}
+              alt="profile picture" 
+            />
           </Link>
         ) : (
           <ul className="top__list">

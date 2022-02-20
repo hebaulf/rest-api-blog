@@ -5,9 +5,11 @@ export const StyledSinglePost = styled.div`
 
     .single-post {
         &__wrapper {
+            display: flex;
+            flex-direction: column;
             padding: 2rem;
             padding-right: 0;
-        }
+        } 
 
         &__img {
             width: 100%;
@@ -17,10 +19,24 @@ export const StyledSinglePost = styled.div`
         }
 
         &__title {
-            text-align: center;
             margin: 1rem;
-            font-size: 2.8rem;
             font-family: "Lora", sans-serif;
+            font-size: 2.8rem;
+            text-align: center;
+
+            &--input {
+                margin: 1rem;
+                color: gray;
+                font-family: "Lora", sans-serif;
+                font-size: 2.8rem;
+                text-align: center;
+                border: none;
+                border-bottom: 1px solid lightgray;
+
+                &:focus {
+                    outline: none;
+                }
+            }
         }
 
         &__edit {
@@ -46,7 +62,6 @@ export const StyledSinglePost = styled.div`
             justify-content: space-between;
             font-size: 1.6rem;
             color: #be9656;
-            font-family: "Varela Round", Arial, Helvetica, sans-serif;
         }
 
         &__author{
@@ -57,6 +72,29 @@ export const StyledSinglePost = styled.div`
             color: #666;
             font-size: 1.8rem;
             line-height: 2.5rem;
+
+            &--input {
+                color: #666;
+                font-size: 1.8rem;
+                line-height: 2.5rem;
+                border: none;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            &__btn {
+                align-self: flex-end;
+                width: 10rem;
+                margin-top: 2rem;
+                padding: .5rem;
+                color: white;
+                background-color: teal;
+                border: 1px solid teal;
+                border-radius: .5rem;
+                cursor: pointer;
+            }
 
             &::first-letter {
                 margin-left: 2rem;

@@ -1,46 +1,111 @@
 import { StyledSinglePost } from './styles';
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from "react-router-dom";
+import { Context } from '../../context/Context';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro';
 import axios from 'axios';
 
 
 const SinglePost = () => {
+  const { user } = useContext(Context);
   const location = useLocation();
   const path = location.pathname.split('/')[2];
-  // console.log(path);
+  const publicFolder = 'http://localhost:5002/images/';
 
   const [post, setPost] = useState({});
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [updateMode, setUpdateMode] = useState(false);
 
   useEffect(() => {
     const getPost = async () => {
       const res = await axios.get('/posts/' + path);
-      console.log(res.data);
       setPost(res.data);
+      setTitle(res.data.title);
+      setDesc(res.data.desc);
     }; 
     getPost();
   }, [path])
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/posts/${post._id}`, { 
+        data: { username: user.username },
+      });
+      window.location.replace('/');
+    } catch (err) {}
+  } 
+
+  const handleUpdate = async () => {
+    try {
+      await axios.put(`/posts/${post._id}`, { 
+        username: user.username, 
+        title, 
+        desc,
+      });
+      // window.location.reload('/');
+      setUpdateMode(false);
+    } catch (err) {}
+  }
   
   return (
     <StyledSinglePost className="single-post">
       <div className="single-post__wrapper">
         {post.photo && (
-          <img className="single-post__img" src={post.photo} alt="" />
+          <img 
+            className="single-post__img" 
+            src={publicFolder + post.photo} 
+            alt={post.title} 
+          />
         )}
-        <h1 className="single-post__title">{post.title}</h1>
-        <div className="single-post__edit">
-          <FontAwesomeIcon className="single-post__icon" icon={regular('pen-to-square')} />
-          <FontAwesomeIcon className="single-post__icon" icon={regular('trash-can')} />
-        </div>
+        {updateMode 
+        ? <input 
+            type="text" 
+            value={title} 
+            className="single-post__title--input" 
+            onChange={(e) => setTitle(e.target.value)} 
+            autoFocus 
+          /> 
+        : (
+          <>
+            <h1 className="single-post__title">{title}</h1>
+            {post.username === user?.username && (
+              <div className="single-post__edit">
+                <FontAwesomeIcon 
+                  icon={regular('pen-to-square')} 
+                  className="single-post__icon" 
+                  onClick={() => setUpdateMode(true)} 
+                />
+                <FontAwesomeIcon 
+                  icon={regular('trash-can')} 
+                  className="single-post__icon" 
+                  onClick={handleDelete} 
+                />
+              </div>
+            )}
+          </>
+        )}
         <div className="single-post__info">
           <span>
             Author:
-            <Link to={`/?user=${post.username}`}><strong className="single-post__author">{post.username}</strong></Link>
+            <Link to={`/?user=${post.username}`}>
+              <strong className="single-post__author">{post.username}</strong>
+            </Link>
           </span>
           <span>{new Date(post.createdAt).toDateString()}</span>
         </div>
-        <p className="single-post__desc">{post.desc}</p>
+        {updateMode 
+        ? <textarea 
+            value={desc} 
+            className="single-post__desc--input" 
+            onChange={(e) => setDesc(e.target.value)} 
+          />
+          
+        : (
+          <p className="single-post__desc">{desc}</p>
+        )}
+        {updateMode && ( <button className="single-post__desc__btn" onClick={handleUpdate}>Update</button> )}
       </div>
     </StyledSinglePost>
   );

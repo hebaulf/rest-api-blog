@@ -48,6 +48,11 @@ export const StyledLogin = styled.div`
         border: none;
         border-radius: 10px;
         text-align: center;
+
+        :disabled {
+            cursor: not-allowed;
+            background-color: #ccc;
+        }
     }
 
     .login__register-btn {

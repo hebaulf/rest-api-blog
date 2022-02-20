@@ -1,9 +1,54 @@
-import { StyledSettings } from "./styles";
+import { useState, useContext } from 'react';
+import { Context } from '../../context/Context';
+import { StyledSettings } from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro';
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from '../../components/Sidebar/Sidebar';
+import axios from 'axios';
 
 const Settings = () => {
+  const { user, dispatch } = useContext(Context);
+  const publicFolder = "http://localhost:5002/images/";
+  
+  const [file, setFile] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [success, setSuccess] = useState(false);
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch({ type: "UPDATE_START" });
+
+    const updatedUser = {
+      userId: user._id,
+      username,
+      email,
+      password,
+    };
+
+    if (file) {
+      const data = new FormData();
+      const filename = Date.now() + file.name;
+      data.append('name', filename);
+      data.append('file', file);
+      updatedUser.profilePic = filename;
+    
+      try {
+        await axios.post("/upload", data);
+      } catch (err) {}
+    }
+
+    try {
+      const res = await axios.put("/users/" + user._id, updatedUser);
+      setSuccess(true);
+      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+    } catch (err) {
+      dispatch({ type: "UPDATE_FAILURE" });
+    }
+  };
+
   return (
     <StyledSettings className="settings">
       <div className="settings__wrapper">
@@ -12,33 +57,56 @@ const Settings = () => {
           <span className="settings__title-delete">Delete Account</span>
         </div>
 
-        <form className="settings__form">
+        <form className="settings__form" autoComplete="off" onSubmit={handleSubmit}>
+
           <label>Profile Picture</label>
           
           <div className="settings__pp">
             <img
-              src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
+              src={file ? URL.createObjectURL(file) : publicFolder + user.profilePic}
+              alt="Profile picture. Click to edit"
             />
             <label htmlFor="fileInput">
-              <FontAwesomeIcon className="settings__pp__icon" icon={regular('circle-user')} />{" "}
+              <FontAwesomeIcon className="settings__pp__icon" icon={regular('circle-user')} />
             </label>
             <input
               id="fileInput"
               type="file"
               style={{ display: "none" }}
               className="settings__pp__input"
+              onChange={(e) => setFile(e.target.files[0])}
             />
           </div>
 
           <label>Username</label>
-          <input type="text" placeholder="Safak" name="name" />
-          <label>Email</label>
-          <input type="email" placeholder="safak@gmail.com" name="email" />
-          <label>Password</label>
-          <input type="password" placeholder="Password" name="password" />
+          <input 
+            type="text" 
+            placeholder={user.username} 
+            name="name" 
+            autoComplete="off" 
+            onChange={(e) => setUsername(e.target.value)} 
+          />
 
-          <button className="settings__submit-btn" type="submit">Update</button>
+          <label>Email</label>
+          <input 
+            type="email" 
+            placeholder={user.email} 
+            name="email" 
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          
+          <label>Password</label>
+          <input 
+            type="password" 
+            placeholder="Password" 
+            name="password" 
+            autoComplete="new-password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button className="settings__submit-btn" type="submit" >Update</button>
+          {success && <span className="msg__success">Profile has been updated...</span>}
         </form>
       </div>
       <Sidebar />
