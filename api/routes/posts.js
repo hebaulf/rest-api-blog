@@ -30,7 +30,7 @@ router.put('/:id', async (req, res) => {
                 res.status(500).jsonp(err);
             }
         } else {
-            res.status(401).json('You can only update your own posts!')
+            res.status(401).json('You can only update your own posts!');
         }
         
     } catch (err) {
@@ -51,7 +51,7 @@ router.delete('/:id', async (req, res) => {
                 res.status(500).jsonp(err);
             }
         } else {
-            res.status(401).json('You can only delete your own posts!')
+            res.status(401).json('You can only delete your own posts!');
         }
         
     } catch (err) {
@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
     try {
         let posts;
         if (username) {
-            posts = await Post.find({username})
+            posts = await Post.find({username});
         } else if (catName) {
             posts = await Post.find({categories: {
                 $in:[catName]

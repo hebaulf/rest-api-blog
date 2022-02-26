@@ -5,7 +5,7 @@ const multer = require('multer');
 const path = require('path');
 
 const app = express();
-const PORT = '5002';
+const PORT_NO = '5002';
 
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
@@ -34,13 +34,17 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   res.status(200).json("File has been uploaded");
 });
 
-
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 
+app.use(express.static(path.join(__dirname, '/client/build')));
 
-app.listen(PORT, () => {
-    console.log(`Backend is running on port ${PORT}`);
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+})
+
+app.listen(process.env.PORT || PORT_NO, () => {
+    console.log(`Backend is running`);
 });
