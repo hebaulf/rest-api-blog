@@ -1,8 +1,6 @@
 # Rest API - Blog
 For this guide I decided to follow tutorials on creating an open blog application where multiple users can add blog posts.
 
-<br>
-
 ### [Link to Live Site](https://restapimern-blog.herokuapp.com/)
 
 <br>
