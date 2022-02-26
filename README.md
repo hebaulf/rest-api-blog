@@ -8,7 +8,7 @@ For this guide I decided to follow tutorials on creating an open blog applicatio
 <br>
 
 <p align="center">
-  <img width="80%" src="img/screenshot.png">
+  <img width="80%" src="https://raw.githubusercontent.com/hebaulf/rest-api-blog/main/img/Screenshot.png">
 </p>
 
 <br>
@@ -25,7 +25,7 @@ For this guide I decided to follow tutorials on creating an open blog applicatio
 - Register as a new user
 - Log in
 - Click on the user profile in the header.
-- Update user image, name, email and password (For now you have to update/write in input for every item otherwise the info will update as blank)
+- Update user image, name, email and password (For now you have to update all inputs, otherwise the info will update as blank (did not have time to fix))
 - Create a blog post with image, title and text.
 - Edit and delete your blog post.
 - View your and other users posts.
