@@ -1,7 +1,27 @@
 # Rest API - Blog
-For this guide I decided to follow tutorials on creating an open blog application where multiple users can add blog posts.  
+For this guide I decided to follow tutorials on creating an open blog application where multiple users can add blog posts.
+
+<br>
+
+### [Link to Live Site](https://restapimern-blog.herokuapp.com/)
+
+<br>
+
+<p align="center">
+  <img width="80%" src="img/screenshot.png">
+</p>
+
+<br>
+
+## Project Setup:
+- MERN stack
+- Set up with [create-react-app](https://create-react-app.dev/docs/getting-started).
+- Rest API with MongoDB
+- Heroku deployment 
+
+<br>
   
-You can:
+## Try these functionalities on the website
 - Register as a new user
 - Log in
 - Click on the user profile in the header.
@@ -10,4 +30,7 @@ You can:
 - Edit and delete your blog post.
 - View your and other users posts.
   
-Passwords are hashed.
+<br>
+
+FYI - Passwords are hashed.
+
