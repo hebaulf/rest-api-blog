@@ -24,10 +24,10 @@ For this guide I decided to follow tutorials on creating an open blog applicatio
 ## Try these functionalities on the website
 - Register as a new user
 - Log in
-- Click on the user profile in the header.
-- Update user image, name, email and password (For now you have to update all inputs, otherwise the info will update as blank (did not have time to fix))
-- Create a blog post with image, title and text.
-- Edit and delete your blog post.
+- Click on the user profile in the header (when logged in) to edit user.
+- Update user image, name, email and password (For now you have to update all inputs, otherwise the info will update as blank (did not have time to fix)).
+- Create a blog post with image, title and text (when logged in).
+- Edit and delete your blog post (when logged in).
 - View your and other users posts.
   
 <br>
